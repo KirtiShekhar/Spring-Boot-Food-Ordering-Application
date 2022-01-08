@@ -1,0 +1,39 @@
+server.port: 7865
+eureka:
+  client:
+      serviceUrl:
+        defaultZone: http://localhost:8761/eureka/
+  instance:
+      prefer-ip-address: true
+      hostname: localhost
+ 
+
+
+spring:
+  application:
+    name: FoodOrderingGateway
+  security:
+        user:
+          name: Kirti
+          password: Kirti12345
+          roles: ADMIN
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+  cloud:
+    gateway:
+      routes:
+        - id: orderservice
+          uri: lb://orderservice
+          predicates:
+          - Path=/order/**
+        - id: userservice
+          uri: lb://userservice
+          predicates:
+          - Path=/user/**
+        - id: menuservice
+          uri: lb://menuservice
+          predicates:
+          - Path=/menu/**
+
+ 
